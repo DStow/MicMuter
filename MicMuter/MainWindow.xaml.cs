@@ -26,9 +26,8 @@ namespace MicMuter
     {
         private bool _running = true;
         private bool _keysDown = false;
-        private bool _microphoneEnabled = false;
 
-        System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
 
         public MainWindow()
         {
