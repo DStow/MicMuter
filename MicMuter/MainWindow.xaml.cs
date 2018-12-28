@@ -38,13 +38,21 @@ namespace MicMuter
             notifyIcon = new System.Windows.Forms.NotifyIcon();
             notifyIcon.Icon = Properties.Resources.MicrophoneIcon;
             notifyIcon.Visible = true;
-            notifyIcon.Text = "Ehhhh";
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
             SetupAndStartKeyboardListener();
 
             UpdateStatusLabel();
 
             this.ShowInTaskbar = false;
+        }
+
+        private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Normal;
+            Application.Current.MainWindow.BringIntoView();
+            BringIntoView();Activate();
+            Topmost = true;
         }
 
         private void SetupAndStartKeyboardListener()
