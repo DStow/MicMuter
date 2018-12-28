@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -48,6 +50,7 @@ namespace MicMuter
                             Console.WriteLine("Keys Down!");
                             AudioManager.ToggleMasterVolumeMute();
                             UpdateStatusLabel();
+                            PlaySound();
                             _keysDown = true;
                         }
                         else if ((Keyboard.IsKeyUp(Key.M) || Keyboard.IsKeyUp(Key.LeftShift)) && _keysDown == true)
@@ -74,6 +77,47 @@ namespace MicMuter
         {
             _running = false;
             base.OnClosing(e);
+        }
+
+        private void PlaySound()
+        {
+            bool micStatus = AudioManager.GetMasterVolumeMute();
+            if (micStatus)
+            {
+                PlayMutedSound();
+            }
+            else
+            {
+                PlayUnmutedSound();
+            }
+        }
+
+        private void PlayMutedSound()
+        {
+            NAudio.Wave.WaveOut wave = new NAudio.Wave.WaveOut();
+            //var x = new AudioFileReader(Properties.Resources.muted);
+
+            byte[] bytes = new byte[1024];
+
+            IWaveProvider provider = new RawSourceWaveStream(
+                                     Properties.Resources.muted, new WaveFormat());
+
+            wave.Init(provider);
+            wave.Play();
+        }
+
+        private void PlayUnmutedSound()
+        {
+            NAudio.Wave.WaveOut wave = new NAudio.Wave.WaveOut();
+            //var x = new AudioFileReader(Properties.Resources.muted);
+
+            byte[] bytes = new byte[1024];
+
+            IWaveProvider provider = new RawSourceWaveStream(
+                                     Properties.Resources.unmuted, new WaveFormat());
+
+            wave.Init(provider);
+            wave.Play();
         }
     }
 }
