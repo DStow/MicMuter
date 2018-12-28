@@ -28,6 +28,13 @@ namespace MicMuter
         {
             InitializeComponent();
 
+            SetupAndStartKeyboardListener();
+
+            UpdateStatusLabel();
+        }
+
+        private void SetupAndStartKeyboardListener()
+        {
             // Create thread to listen for keyboard
             Thread thread = new Thread(() =>
             {
@@ -40,6 +47,7 @@ namespace MicMuter
                             // Toggle Mute
                             Console.WriteLine("Keys Down!");
                             AudioManager.ToggleMasterVolumeMute();
+                            UpdateStatusLabel();
                             _keysDown = true;
                         }
                         else if ((Keyboard.IsKeyUp(Key.M) || Keyboard.IsKeyUp(Key.LeftShift)) && _keysDown == true)
@@ -49,11 +57,17 @@ namespace MicMuter
                         }
                     });
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             });
 
             thread.Start();
+        }
+
+        private void UpdateStatusLabel()
+        {
+            bool micStatus = AudioManager.GetMasterVolumeMute();
+            lblStatus.Content = "Status: " + (!micStatus ? "Enabled" : "Muted");
         }
 
         protected override void OnClosing(CancelEventArgs e)

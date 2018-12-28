@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MicMuter"
         mc:Ignorable="d"
-        Title="Mic Muter" Height="450" Width="800">
+        Title="Mic Muter" Height="77.433" Width="290.339">
     <Grid>
-        
+        <Label x:Name="lblStatus" Content="Status: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+
     </Grid>
 </Window>
