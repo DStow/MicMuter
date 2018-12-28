@@ -26,13 +26,25 @@ namespace MicMuter
     {
         private bool _running = true;
         private bool _keysDown = false;
+        private bool _microphoneEnabled = false;
+
+        System.Windows.Forms.NotifyIcon notifyIcon;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            // Create notification icon thing
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.Icon = Properties.Resources.MicrophoneIcon;
+            notifyIcon.Visible = true;
+            notifyIcon.Text = "Ehhhh";
+
             SetupAndStartKeyboardListener();
 
             UpdateStatusLabel();
+
+            this.ShowInTaskbar = false;
         }
 
         private void SetupAndStartKeyboardListener()
@@ -78,6 +90,17 @@ namespace MicMuter
         {
             bool micStatus = AudioManager.GetMasterVolumeMute();
             lblStatus.Content = "Status: " + (!micStatus ? "Enabled" : "Muted");
+
+            if(micStatus == false)
+            {
+                notifyIcon.Icon = Properties.Resources.MicrophoneIcon;
+                notifyIcon.Text = "Enabled";
+            }
+            else
+            {
+                notifyIcon.Icon = Properties.Resources.MicrophoneRedIcon;
+                notifyIcon.Text = "Disabled";
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)
