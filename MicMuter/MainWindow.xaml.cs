@@ -37,6 +37,7 @@ namespace MicMuter
 
         private void SetupAndStartKeyboardListener()
         {
+           // Keyboard.AddKeyDownHandler(this, Handled);
             // Create thread to listen for keyboard
             Thread thread = new Thread(() =>
             {
@@ -44,7 +45,8 @@ namespace MicMuter
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        if (Keyboard.IsKeyDown(Key.M) && Keyboard.IsKeyDown(Key.LeftShift) && _keysDown == false)
+
+                        if (Keyboard.IsKeyDown(Key.Oem8) && Keyboard.IsKeyDown(Key.LeftShift) && _keysDown == false)
                         {
                             // Toggle Mute
                             Console.WriteLine("Keys Down!");
@@ -53,7 +55,7 @@ namespace MicMuter
                             PlaySound();
                             _keysDown = true;
                         }
-                        else if ((Keyboard.IsKeyUp(Key.M) || Keyboard.IsKeyUp(Key.LeftShift)) && _keysDown == true)
+                        else if ((Keyboard.IsKeyUp(Key.Oem8) || Keyboard.IsKeyUp(Key.LeftShift)) && _keysDown == true)
                         {
                             Console.WriteLine("Keys Up!");
                             _keysDown = false;
@@ -65,6 +67,11 @@ namespace MicMuter
             });
 
             thread.Start();
+        }
+
+        private void Handled(object sender, KeyEventArgs e)
+        {
+            lblStatus.Content = e.Key.ToString();
         }
 
         private void UpdateStatusLabel()
