@@ -72,6 +72,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\AudioManager.cs" />
+    <Compile Include="Code\KeyNamer.cs" />
+    <Compile Include="Code\ShortcutConfig.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
