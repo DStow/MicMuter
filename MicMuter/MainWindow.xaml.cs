@@ -60,6 +60,24 @@ namespace MicMuter
             _trayIcon.Icon = Properties.Resources.MicrophoneIcon;
             _trayIcon.Visible = true;
             _trayIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+
+            var trayContext = new System.Windows.Forms.ContextMenu();
+            var trayExitButton = new System.Windows.Forms.MenuItem("Exit");
+            trayExitButton.Click += (x, y) =>
+            {
+                this.Close();
+            };
+
+            trayContext.MenuItems.Add(trayExitButton);
+
+            var trayToggleButton = new System.Windows.Forms.MenuItem("Toggle");
+            trayToggleButton.Click += (x, y) =>
+              {
+                  this.ToggleStatus();
+              };
+            trayContext.MenuItems.Add(trayToggleButton);
+
+            _trayIcon.ContextMenu = trayContext;
         }
 
         /// <summary>
@@ -91,11 +109,7 @@ namespace MicMuter
                     {
                         if (Keyboard.IsKeyDown(_shortcutKey) && Keyboard.IsKeyDown(Key.LeftShift) && _shortcutKeyDown == false)
                         {
-                            AudioManager.ToggleMasterVolumeMute();
-
-                            UpdateStatusLabel();
-
-                            PlayMicrphoneStatusSound();
+                            ToggleStatus();
 
                             _shortcutKeyDown = true;
                         }
@@ -110,6 +124,15 @@ namespace MicMuter
             });
 
             thread.Start();
+        }
+
+        private void ToggleStatus()
+        {
+            AudioManager.ToggleMasterVolumeMute();
+
+            UpdateStatusLabel();
+
+            PlayMicrphoneStatusSound();
         }
 
         /// <summary>
@@ -211,6 +234,11 @@ namespace MicMuter
             btnChangeShortcut.IsEnabled = false;
         }
 
+        private void btnToggleManual_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleStatus();
+        }
+
         /// <summary>
         /// Fired when the user is trying to change the keyboard shortcut
         /// </summary>
@@ -218,7 +246,7 @@ namespace MicMuter
         {
             // Check if it's a valid key
             // ToDo: Move invalid key numbers into a config entry?
-            if(args.Key == Key.LeftShift)
+            if (args.Key == Key.LeftShift)
             {
                 return;
             }

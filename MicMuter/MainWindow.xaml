@@ -10,6 +10,7 @@
         <Label x:Name="lblStatus" Content="Status: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
         <Label x:Name="lblShortcut" Content="Use Left Shift + Tilde to toggle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,36,0,0"/>
         <Button x:Name="btnChangeShortcut" Content="Change Shortcut Key" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="141" Click="BtnChangeShortcut_Click"/>
+        <Button x:Name="btnToggleManual" Content="Toggle" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="141" Click="btnToggleManual_Click"/>
 
     </Grid>
 </Window>
